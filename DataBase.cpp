@@ -42,7 +42,7 @@ namespace insertdb {
 		sqlite3* db;
 		DataBase call;
 		int rc;
-		char* zErrMsg = 0;
+		char* messaggeError;
 		const char* s = "DB\\DATABASE.db";
 		int exit = sqlite3_open(s, &db);
 
@@ -53,8 +53,9 @@ namespace insertdb {
 
 		rc = sqlite3_exec(db, sql.c_str(), callback, NULL, NULL);
 		if (rc != SQLITE_OK) {
-			fprintf(stderr, "SQL error: %s\n", zErrMsg);
-			sqlite3_free(zErrMsg);
+			std::cout << "Error!!! Failed to select\n";
+
+			sqlite3_free(messaggeError);
 			sqlite3_close(db);
 		}
 		else {
