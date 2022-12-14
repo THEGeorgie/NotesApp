@@ -24,7 +24,7 @@ namespace insertdb {
 	void DataBase::insertDataNotes(std::string data, std::string idUser, std::string idNote) {
 		char* messaggeError;
 		sqlite3* db;
-		const char* s = "DB\\DATABASE.db";
+		const char* s = "DB/DATABASE.db";
 		int exit = sqlite3_open(s, &db);
 		std::string sql("INSER INTO Notes ( data, user_id) VALUES (" + idUser + "," + data + ")");
 
@@ -38,35 +38,26 @@ namespace insertdb {
 		}
 	}
 
-	int selectData(std::string selecetion, std::string wh) {
+	int DataBase::selectData(std::string email) {
 		sqlite3* db;
 		DataBase call;
-		int rc;
 		char* messaggeError;
 		const char* s = "DB\\DATABASE.db";
+
 		int exit = sqlite3_open(s, &db);
 
-		std::string sl = "\'" + selecetion + "\'";
-		std::string whe = "\'" + wh + "\'";
+		std::string sql = "SELECT password FROM User WHERE " + quote + email + quote + ";";
 
-		std::string sql = "SELECT " + sl + " FROM User; WHERE " + whe + ";";
-
-		rc = sqlite3_exec(db, sql.c_str(), callback, NULL, NULL);
-		if (rc != SQLITE_OK) {
-			std::cout << "Error!!! Failed to select\n";
-
+		exit = sqlite3_exec(db, sql.c_str(), callback, NULL, &messaggeError);
+		if (exit != SQLITE_OK) {
+		
 			sqlite3_free(messaggeError);
 			sqlite3_close(db);
 		}
 		else {
-			fprintf(stdout, "Operation done successfully\n");
+			std::cout << "Error!!\n";
 			sqlite3_close(db);
 		}
-
-
-		call.SEdata = sql;
-
-		sqlite3_close(db);
 		return 0;
 
 	}
