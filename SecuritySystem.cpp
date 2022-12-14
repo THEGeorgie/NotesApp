@@ -20,18 +20,19 @@ namespace logregister {
         this->email = email;
         this->password = password;
 
-        std::string line;
-        int currentLine = 0;
+        //insertdb::data pass;
         insertdb::DataBase db;
-        std::cout << db.SEdata << std::endl;
+        db.selectData(email);
+        
+        //std::cout << "password: " + password;
+
+        // if (pass.data == "password: " + password) {
+        //     std::cout << "Logged in!!!!!\n";
+        // }else{
+        //     std::cout << "Incorect login information!!!\n";
+        // }
+        
+
         return false;
-        /*if (db.SEdata == email || db.SEdata == password) {
-            cout << "Login Secsesfull" << endl;
-        }
-        else{
-            cout << "Login failed!!!" << endl;
-            return false;
-        }
-        */
     }
 }

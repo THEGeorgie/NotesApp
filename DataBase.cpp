@@ -21,12 +21,12 @@ namespace insertdb {
 
 	}
 
-	void DataBase::insertDataNotes(std::string data, std::string idUser, std::string idNote) {
+	void DataBase::insertDataNotes(std::string INdata, std::string idUser, std::string idNote) {
 		char* messaggeError;
 		sqlite3* db;
 		const char* s = "DB/DATABASE.db";
 		int exit = sqlite3_open(s, &db);
-		std::string sql("INSER INTO Notes ( data, user_id) VALUES (" + idUser + "," + data + ")");
+		std::string sql("INSER INTO Notes ( data, user_id) VALUES (" + idUser + "," + INdata + ")");
 
 		exit = sqlite3_exec(db, sql.c_str(), NULL, NULL, &messaggeError);
 		if (exit != SQLITE_OK) {
@@ -39,23 +39,22 @@ namespace insertdb {
 	}
 
 	int DataBase::selectData(std::string email) {
+		data pass;
 		sqlite3* db;
-		DataBase call;
 		char* messaggeError;
-		const char* s = "DB\\DATABASE.db";
+		const char* s = "DB/DATABASE.db";
 
 		int exit = sqlite3_open(s, &db);
 
-		std::string sql = "SELECT password FROM User WHERE " + quote + email + quote + ";";
+		std::string sql = ("SELECT password FROM Users WHERE email = " + quote + email + quote +";");
 
-		exit = sqlite3_exec(db, sql.c_str(), callback, NULL, &messaggeError);
+		exit = sqlite3_exec(db, sql.c_str(), callback, &pass, &messaggeError);
 		if (exit != SQLITE_OK) {
-		
+			std::cout << "\nError!!\n";
 			sqlite3_free(messaggeError);
 			sqlite3_close(db);
 		}
 		else {
-			std::cout << "Error!!\n";
 			sqlite3_close(db);
 		}
 		return 0;
